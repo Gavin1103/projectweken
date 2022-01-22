@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../controller/assets/style.css">
+    <title>controller</title>
+</head>
+
+<body>
+    <div id="container-controller">
+        <div class="titel-container">
+            <h1>reload your weapon</h1>
+        </div>
+        <div class="container-controller">
+            <input onclick="reloadGun('reload')" value="reload" type="button">
+        </div>
+        <div class="titel-container">
+            <h1>fire your weapon</h1>
+        </div>
+        <div class="container-controller">
+            <input onclick="fireGun('fire')" value="schieten" type="button">
+            <input onclick="fireGun('stopfire')" value="stoppen met schieten" type="button">
+        </div>
+        <div class="titel-container">
+            <h1>change the color</h1>
+        </div>
+        <div class="container-controller">
+            <input onclick="chooseColor('white')" value="reset color" type="button">
+            <input onclick="chooseColor('rood')" value="rood" type="button">
+            <input onclick="chooseColor('blauw')" value="blauw" type="button">
+            <input onclick="chooseColor('groen')" value="groen" type="button">
+        </div>
+    </div>
+    <script src="../controller/assets/script.js"></script>
+    <script>
+        function chooseColor(color) {
+            fetch('updater.php?color=' + color);
+        }
+        function reloadGun(reload) {
+            console.log("reloading...")
+            fetch('updater.php?reload=' + reload);
+        }
+        function fireGun(fire) {
+            console.log("firering...")
+            fetch('updater.php?fire=' + fire);
+        }
+    </script>
+</body>
+
+</html>

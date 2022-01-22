@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../controller/assets/style.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <title>display</title>
+</head>
+
+<body>
+
+    <img id="bullets" src="../controller/assets/img/Webp.net-gifmaker.gif" alt="">
+
+
+    <div id="container">
+        <img id="ak" src="../controller/assets/img/ak47.png">
+        <img id="ammo" src="../controller/assets/img/ammo.png">
+        <img id="foregrip" src="../controller/assets/img/foregrip.png">
+
+        <div id="droppable">Plaats hier de underbarral</div>
+    </div>
+
+    <script src="../controller/assets/script.js"></script>
+    <script>
+        let magazijn = document.getElementById("ammo");
+        let ak47 = document.getElementById("container");
+        let kleur = document.getElementById("ak");
+        let bullets = document.getElementById("bullets")
+        // underbarral slepen
+        $(function () {
+            $("#foregrip").draggable();
+        });
+        // underbarral plaatsen
+        $(function () {
+            $("#forefrip").draggable();
+            $("#droppable").droppable({
+                drop: function (event, ui) {
+                    $(this)
+                    alert("underbarrel toegevoegd")
+                }
+            });
+        });
+        function readData() {
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // alles voor herladen
+                    if (data.reload == "reload") {
+                        console.log("aan het herladen");
+                        // console.log(magazijn.style.top);
+                        magazijn.style.top = `${magazijn.offsetTop + 30}px`;
+                        bullets.style.display = "none";
+                    }
+                    // herladen resetten
+                    if (magazijn.style.top > "400px") {
+                        magazijn.style.top = "225px";
+                        fetch('updater.php?reload=');
+                    }
+                    // schieten
+                    if (data.fire == "fire") {
+                        // console.log("aan het schieten");
+                        bullets.style.display = "block";
+                    }
+                    if (data.fire == "stopfire") {
+                        // console.log("gestopt met schieten");
+                        bullets.style.display = "none";
+                    }
+                    // als je op herladen klikt stopt je met schieten
+                    if (data.reload == "reload") {
+                        bullets.style.display = "none";
+                    }
+
+                    // kleur veranderen
+                    if (data.color == "rood") {
+                        // console.log("wapen is rood")
+                        magazijn.style.backgroundColor = "red";
+                        kleur.style.backgroundColor = "red";
+                    }
+                    if (data.color == "white") {
+                        // console.log("wapen is wit")
+                        magazijn.style.backgroundColor = "white";
+                        kleur.style.backgroundColor = "white";
+                    }
+
+                    if (data.color == "groen") {
+                        // console.log("wapen is groen")
+                        magazijn.style.backgroundColor = "green";
+                        kleur.style.backgroundColor = "green";
+                    }
+
+                    if (data.color == "blauw") {
+                        // console.log("wapen is blauw")
+                        magazijn.style.backgroundColor = "blue";
+                        kleur.style.backgroundColor = "blue";
+                    }
+                    setTimeout(readData, 500);
+
+                });
+        }
+        readData();
+    </script>
+</body>
+
+</html>
